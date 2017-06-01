@@ -2,7 +2,6 @@
 #define SERIALIZE_H
 
 #include <stdint.h>
-#include <cstring>
 
 /* Serializes numeric data into a char array (big endian)
  */

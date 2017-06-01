@@ -61,19 +61,19 @@ void loop()
   {
     _eth.read(_buffer, UDP_TX_PACKET_MAX_SIZE);
     _lastMessageTime = now;
-    int16_t wheelFL = deserialize<uint16_t>(_buffer + 1);
-    int16_t wheelML = deserialize<uint16_t>(_buffer + 3);
-    int16_t wheelBL = deserialize<uint16_t>(_buffer + 5);
+    int16_t wheelFL = deserialize<uint16_t>(_buffer);
+    int16_t wheelML = deserialize<uint16_t>(_buffer + 2);
+    int16_t wheelBL = deserialize<uint16_t>(_buffer + 4);
     int16_t wheelFR = deserialize<uint16_t>(_buffer + 6);
-    int16_t wheelMR = deserialize<uint16_t>(_buffer + 7);
-    int16_t wheelBR = deserialize<uint16_t>(_buffer + 9);
+    int16_t wheelMR = deserialize<uint16_t>(_buffer + 8);
+    int16_t wheelBR = deserialize<uint16_t>(_buffer + 10);
 
-    _servoFL.write(wheelFL / (32766 / (DEGREE_MAX - DEGREE_MIN) / 2 + 90);
-    _servoML.write(wheelML / 364 + 90);
-    _servoBL.write(wheelBL / 364 + 90);
-    _servoFR.write(wheelFR / 364 + 90);
-    _servoMR.write(wheelMR / 364 + 90);
-    _servoBR.write(wheelBR / 364 + 90);
+    _servoFL.write(wheelFL / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
+    _servoML.write(wheelML / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
+    _servoBL.write(wheelBL / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
+    _servoFR.write(wheelFR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
+    _servoMR.write(wheelMR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
+    _servoBR.write(wheelBR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
   }
   if (_lastMessageTime > now || _lastHeartbeatTime > now)
   {
