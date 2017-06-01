@@ -6,12 +6,12 @@
 #include "constants.h"
 #include "serialize.h"
 
-#define PIN_WHEEL_FL 3
-#define PIN_WHEEL_ML 5
-#define PIN_WHEEL_BL 6
-#define PIN_WHEEL_FR 9
-#define PIN_WHEEL_MR 10
-#define PIN_WHEEL_BR 11
+#define PIN_WHEEL_FL 10
+#define PIN_WHEEL_ML 3
+#define PIN_WHEEL_BL 5
+#define PIN_WHEEL_FR 11
+#define PIN_WHEEL_MR 9
+#define PIN_WHEEL_BR 6
 
 #define DEGREE_MIN 10
 #define DEGREE_MAX 170
@@ -44,7 +44,7 @@ void setup()
   _servoFR.attach(PIN_WHEEL_FR);
   _servoMR.attach(PIN_WHEEL_MR);
   _servoBR.attach(PIN_WHEEL_BR);
-
+  
   stopDrive();
 
   // Begin ethernet with specified MAC address
@@ -68,12 +68,12 @@ void loop()
     int16_t wheelMR = deserialize<uint16_t>(_buffer + 8);
     int16_t wheelBR = deserialize<uint16_t>(_buffer + 10);
 
-    _servoFL.write(wheelFL / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
-    _servoML.write(wheelML / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
-    _servoBL.write(wheelBL / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
-    _servoFR.write(wheelFR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
-    _servoMR.write(wheelMR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
-    _servoBR.write(wheelBR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2) + 90);
+    _servoFL.write((-wheelFL / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2)) + 90);
+    _servoML.write((-wheelML / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2)) + 90);
+    _servoBL.write((wheelBL / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2)) + 90);
+    _servoFR.write((-wheelFR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2)) + 90);
+    _servoMR.write((-wheelMR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2)) + 90);
+    _servoBR.write((wheelBR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2)) + 90);
   }
   if (_lastMessageTime > now || _lastHeartbeatTime > now)
   {
