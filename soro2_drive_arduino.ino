@@ -16,7 +16,7 @@
 #define DEGREE_MIN 10
 #define DEGREE_MAX 170
 
-byte eth_mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE };
+byte eth_mac[] = { 0xDA, 0x2D, 0x6F, 0x9D, 0xFE, 0xEE };
 
 char _buffer[20];
 unsigned long _lastMessageTime = 0;
