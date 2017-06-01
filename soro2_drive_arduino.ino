@@ -38,6 +38,7 @@ void stopDrive()
 
 void setup() 
 {
+  Serial.begin(9600);
   _servoFL.attach(PIN_WHEEL_FL);
   _servoML.attach(PIN_WHEEL_ML);
   _servoBL.attach(PIN_WHEEL_BL);
@@ -59,6 +60,7 @@ void loop()
   unsigned long now = millis();
   if (packetSize == 12)
   {
+    Serial.println("Got message");
     _eth.read(_buffer, 12);
     _lastMessageTime = now;
     int16_t wheelFL = deserialize<uint16_t>(_buffer);
@@ -75,6 +77,9 @@ void loop()
     _servoMR.write((-wheelMR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2)) + 90);
     _servoBR.write((wheelBR / 32766 * ((DEGREE_MAX - DEGREE_MIN) / 2)) + 90);
   }
+  else {
+    Serial.println("Got invalid message");
+  }
   if (_lastMessageTime > now || _lastHeartbeatTime > now)
   {
     // Millis has overflowed
@@ -85,14 +90,17 @@ void loop()
   {
     // No mesages received in .5 seconds
     stopDrive();
+    Serial.println("Drive timeout");
   }
   if (now - _lastHeartbeatTime > 1000)
   {
     // Send heartbeat
+    Serial.println("Sending heartbeat");
     _buffer[0] = SORO_HEADER_DRIVE_HEARTBEAT_MSG;
     _eth.beginPacket(_eth.remoteIP(), SORO_NET_DRIVE_SYSTEM_PORT);
     _eth.write(_buffer, 1);
     _eth.endPacket();
     _lastHeartbeatTime = now;
   }
+  
 }
