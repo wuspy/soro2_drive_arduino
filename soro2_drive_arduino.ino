@@ -57,9 +57,9 @@ void loop()
   // Check for incoming packet
   int packetSize = _eth.parsePacket();
   unsigned long now = millis();
-  if (packetSize && packetSize == 12)
+  if (packetSize == 12)
   {
-    _eth.read(_buffer, UDP_TX_PACKET_MAX_SIZE);
+    _eth.read(_buffer, 12);
     _lastMessageTime = now;
     int16_t wheelFL = deserialize<uint16_t>(_buffer);
     int16_t wheelML = deserialize<uint16_t>(_buffer + 2);
