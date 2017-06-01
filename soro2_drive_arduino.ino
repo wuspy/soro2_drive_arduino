@@ -19,8 +19,8 @@
 byte eth_mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE };
 
 char _buffer[20];
-int _lastMessageTime = 0;
-int _lastHeartbeatTime = 0;
+unsigned long _lastMessageTime = 0;
+unsigned long _lastHeartbeatTime = 0;
 
 EthernetUDP _eth;
 
@@ -56,7 +56,7 @@ void loop()
 {
   // Check for incoming packet
   int packetSize = _eth.parsePacket();
-  int now = millis();
+  unsigned long now = millis();
   if (packetSize && packetSize == 12)
   {
     _eth.read(_buffer, UDP_TX_PACKET_MAX_SIZE);
